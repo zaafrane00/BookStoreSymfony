@@ -2,93 +2,94 @@
 
 namespace App\Controller;
 
+use App\Entity\Categorie;
 use App\Entity\Livre;
+use App\Form\LivreType;
 use App\Repository\LivreRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
+
+/**
+ * @Route("/livre")
+ */
 class LivreController extends AbstractController
 {
     /**
-     * @Route("/livre", name="livre")
+     * @Route("/", name="livre_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(LivreRepository $livreRepository): Response
     {
         return $this->render('livre/index.html.twig', [
-            'controller_name' => 'LivreController',
+            'livres' => $livreRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/livre/liste", name="livre_liste")
+     * @Route("/new", name="livre_new", methods={"GET", "POST"})
      */
-    public function liste(LivreRepository  $repository){
-        $livres = $repository->findAll();
-        return $this->render(
-            'livre/liste.html.twig',
-            [
-                'livres' => $livres,
-                
-            ]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $livre = new Livre();
+        $form = $this->createForm(LivreType::class, $livre);
+        $form->handleRequest($request);
 
-        );
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($livre);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('livre_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('livre/new.html.twig', [
+            'livre' => $livre,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
-     * @Route("/livre/ajouter", name="livre_ajouter")
+     * @Route("/{id}", name="livre_show", methods={"GET"})
      */
-    public function ajouter(Request $request)
+    public function show(Livre $livre): Response
     {
-        $livre = new Livre();
-
-        $form = $this->createFormBuilder($livre)
-            ->add('titre', TextType::class)
-            ->add('description', TextType::class)
-            ->add('statut', TextType::class)
-            ->add('date_emprunt', DateType::class)
-            ->add('date_retour', DateType::class)
-            ->add('save', SubmitType::class)
-            ->getForm();
-
-        if ($request->isMethod('POST')) {
-            $form->handleRequest($request);
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($livre);
-                $em->flush();
-                $session = new Session();
-                $session->getFlashBag()->add('notice', 'livre bien enregistré.');
-                return $this->redirectToRoute('livre_liste');
-
-            }
-        }
-        return $this->render('livre/ajouter.html.twig', array('form' => $form->createView()));
+        return $this->render('livre/show.html.twig', [
+            'livre' => $livre,
+        ]);
     }
-     /**
-     * @Route("/supprimer/{titre}", name="livre_supprimer", requirements={"titre"="\d+"})
-     * 
+
+    /**
+     * @Route("/{id}/edit", name="livre_edit", methods={"GET", "POST"})
      */
-
-    public function supprimer($titre)
+    public function edit(Request $request, Livre $livre, EntityManagerInterface $entityManager): Response
     {
-        
-       
-        $em = $this->getDoctrine()->getManager();
-        $livre = $em->getRepository(Livre::class)->find($titre);
-        foreach ($livre-> getTitre() as $titre){
-            $livre->removeTitre($titre);
-        }
-        $em->flush();
+        $form = $this->createForm(LivreType::class, $livre);
+        $form->handleRequest($request);
 
-        return $this->render(
-            'livre/supprimer.html.twig',
-            ['titre'=>$titre]);
-        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('livre_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('livre/edit.html.twig', [
+            'livre' => $livre,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}", name="livre_delete", methods={"POST"})
+     */
+    public function delete(Request $request, Livre $livre, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$livre->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($livre);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('livre_index', [], Response::HTTP_SEE_OTHER);
     }
 }

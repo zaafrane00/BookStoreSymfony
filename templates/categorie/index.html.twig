@@ -1,26 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Image index{% endblock %}
+{% block title %}Categorie index{% endblock %}
 
 {% block body %}
-    <h1>Image index</h1>
+    <h1>Categorie index</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Url</th>
+                <th>Nom</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for image in images %}
+        {% for categorie in categories %}
             <tr>
-                <td>{{ image.id }}</td>
-                <td>{{ image.url }}</td>
+                <td>{{ categorie.id }}</td>
+                <td>{{ categorie.nom }}</td>
                 <td>
-                    <a href="{{ path('image_show', {'id': image.id}) }}">show</a>
-                    <a href="{{ path('image_edit', {'id': image.id}) }}">edit</a>
+                    <a href="{{ path('categorie_show', {'id': categorie.id}) }}">show</a>
+                    <a href="{{ path('categorie_edit', {'id': categorie.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -31,5 +31,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('image_new') }}">Create new</a>
+    <a href="{{ path('categorie_new') }}">Create new</a>
 {% endblock %}
