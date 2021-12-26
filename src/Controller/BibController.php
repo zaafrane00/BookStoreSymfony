@@ -85,9 +85,9 @@ class BibController extends AbstractController
     {
         $mymenu = array(
             ['route' => 'bib', 'intitule' => 'Accueil'],
-            ['route' => 'ajouter', 'intitule' => 'Ajouter un user'],
-            ['route' => 'liste', 'intitule' => 'Afficher tous les users']
-
+            ['route' => 'livre_liste', 'intitule' => 'Gérer tous les livres'],
+            ['route' => 'category_liste', 'intitule' => 'Gérer toutes les categories'],
+            ['route' => 'user_liste', 'intitule' => 'Gérer tous les users'],
         );
         return $this->render('bib/menu.html.twig', ['mymenu' => $mymenu,]);
     }

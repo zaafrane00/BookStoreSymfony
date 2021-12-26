@@ -25,7 +25,7 @@ class UserController extends AbstractController
     }
     
      /**
-     * @Route("/user/liste", name="liste")
+     * @Route("/user/liste", name="user_liste")
      */
     public function liste(UserRepository  $repository){
         $users = $repository->findAll();
@@ -39,7 +39,7 @@ class UserController extends AbstractController
         );
     }
     /**
-     * @Route("/user/ajouter", name="ajouter")
+     * @Route("/user/ajouter", name="user_ajouter")
      * 
      */
     public function ajouter(Request $request)
@@ -62,7 +62,7 @@ class UserController extends AbstractController
                 $em->flush();
                 $session = new Session();
                 $session->getFlashBag()->add('notice', 'user bien enregistré.');
-                return $this->redirectToRoute('liste');
+                return $this->redirectToRoute('user_liste');
 
             }
         }

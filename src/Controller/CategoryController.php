@@ -26,7 +26,7 @@ class CategoryController extends AbstractController
     }
 
      /**
-     * @Route("/category/liste", name="liste")
+     * @Route("/category/liste", name="category_liste")
      */
     public function liste(CategorieRepository  $repository){
         $categories = $repository->findAll();
@@ -41,7 +41,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/category/ajouter", name="ajouter")
+     * @Route("/category/ajouter", name="category_ajouter")
      * 
      */
 
@@ -62,7 +62,7 @@ class CategoryController extends AbstractController
                 $em->flush();
                 $session = new Session();
                 $session->getFlashBag()->add('notice', 'catégorie bien enregistrée.');
-                return $this->redirectToRoute('liste');
+                return $this->redirectToRoute('category_liste');
 
             }
         }

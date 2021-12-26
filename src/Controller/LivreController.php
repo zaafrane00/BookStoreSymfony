@@ -26,7 +26,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/livre/liste", name="liste")
+     * @Route("/livre/liste", name="livre_liste")
      */
     public function liste(LivreRepository  $repository){
         $livres = $repository->findAll();
@@ -41,7 +41,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/livre/ajouter", name="ajouter")
+     * @Route("/livre/ajouter", name="livre_ajouter")
      */
     public function ajouter(Request $request)
     {
@@ -64,14 +64,14 @@ class LivreController extends AbstractController
                 $em->flush();
                 $session = new Session();
                 $session->getFlashBag()->add('notice', 'livre bien enregistré.');
-                return $this->redirectToRoute('liste');
+                return $this->redirectToRoute('livre_liste');
 
             }
         }
         return $this->render('livre/ajouter.html.twig', array('form' => $form->createView()));
     }
      /**
-     * @Route("/supprimer/{titre}", name="supprimer", requirements={"titre"="\d+"})
+     * @Route("/supprimer/{titre}", name="livre_supprimer", requirements={"titre"="\d+"})
      * 
      */
 
