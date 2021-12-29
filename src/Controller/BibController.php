@@ -88,6 +88,20 @@ class BibController extends AbstractController
             ['route' => 'livre_index', 'intitule' => 'Gérer tous les livres'],
             ['route' => 'categorie_index', 'intitule' => 'Gérer toutes les categories'],
             ['route' => 'user_index', 'intitule' => 'Gérer tous les users'],
+            ['route' => 'app_logout', 'intitule' => 'Logout'],
+        );
+        return $this->render('bib/menu.html.twig', ['mymenu' => $mymenu,]);
+    }
+    
+    /**
+     * @Route("/menu_auth", name="menu_auth")
+     * 
+     */
+    public function menu_auth(): response
+    {
+        $mymenu = array(
+            ['route' => 'app_login', 'intitule' => 'Login'],
+            ['route' => 'app_register', 'intitule' => 'Register'],
         );
         return $this->render('bib/menu.html.twig', ['mymenu' => $mymenu,]);
     }

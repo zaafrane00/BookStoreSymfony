@@ -16,7 +16,13 @@
     </head>
     <body>
         {% block nav  %}
+
+        {% if app.user %}
         {{render(controller('App\\Controller\\BibController::menu'))}}
+        {% else %}
+        {{render(controller('App\\Controller\\BibController::menu_auth'))}}   
+         {% endif %}
+
         {% endblock %}
         {% block body %}{% endblock %}
     </body>
