@@ -36,36 +36,6 @@ class BibController extends AbstractController
         ['id' =>$id]);
         
     }
-    
-    /**
-     * @Route("/ajouter", name="ajouter")
-     * 
-     */
-
-    public function ajouter(Request $request )
-    {
-//         $bib = new Bib();
-
-//         $form= $this->createFormBuilder($bib) 
-//         ->add('adresse',TextType::class)
-//         ->add('nom',TextType::class)
-//         ->add('save',SubmitType::class)
-//         ->getForm();
-
-// if ($request->isMethod ('POST')) {
-//      $form->handleRequest ($request);
-//     if ($form->isValid())
-//     { $em = $this->getDoctrine ()->getManager();  
-//     $em->persist($bib);  
-//     $em->flush();  
-//     $session=new Session();
-//     $session->getFlashBag()->add('notice', 'bib bien enregistré.'); 
-//     }
-// }
-// return $this->render('bib/ajouter.html.twig', array('form' => $form->createView()));
-        // return $this->render('bib/ajouter.html.twig');
-        
-    }
 
      /**
      * @Route("/liste", name="liste")

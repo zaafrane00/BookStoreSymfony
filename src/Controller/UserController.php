@@ -11,19 +11,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 
 /**
  * @Route("/user")
+ * @IsGranted("IS_AUTHENTICATED_FULLY")
  */
 class UserController extends AbstractController
 {
-    private $security;
-    
-    public function __construct(Security $security)
-    {
-        $this->security=$security;
-    }
-
     /**
      * @Route("/", name="user_index", methods={"GET"})
      */
