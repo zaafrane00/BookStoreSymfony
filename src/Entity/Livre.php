@@ -27,7 +27,7 @@ class Livre
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $description;
+    private $auteur;
 
     
     /**
@@ -79,14 +79,14 @@ class Livre
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getAuteur(): ?string
     {
-        return $this->description;
+        return $this->auteur;
     }
 
-    public function setDescription(string $description): self
+    public function setAuteur(string $auteur): self
     {
-        $this->description = $description;
+        $this->auteur = $auteur;
 
         return $this;
     }

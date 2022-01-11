@@ -14,7 +14,7 @@ class LivreType extends AbstractType
     {
         $builder
             ->add('titre')
-            ->add('description')
+            ->add('auteur')
             ->add('statut', ChoiceType::class, [
                 'choices'  => [
                     'Disponible' => 'Disponible',
