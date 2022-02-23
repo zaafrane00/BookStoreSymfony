@@ -11,8 +11,8 @@ class ImageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add('url');
+        // $builder
+        //     ->add('url');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

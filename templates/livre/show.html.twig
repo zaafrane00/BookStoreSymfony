@@ -4,7 +4,8 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Livre</h1>
+	<h1 class="h3 mb-3 font-weight-normal">Livre</h1>
+
 
 	<table class="table">
 		<tbody>
@@ -53,8 +54,10 @@
 <img class="card-img-top" src="{{asset('/uploads/images/'~livre.image)}}" alt="Card image cap" width="100">
 
 
-<a href="{{ path('livre_index') }}">back to list</a>
+<a class="btn btn-primary" href="{{ path('livre_index') }}">back to list</a>
 
-<a href="{{ path('livre_edit', {'id': livre.id}) }}">edit</a>
+
+<a class="btn btn-secondary" href="{{ path('livre_edit', {'id': livre.id}) }}">edit</a>
+
 
 {{ include('livre/_delete_form.html.twig') }}{% endblock %}

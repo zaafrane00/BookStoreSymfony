@@ -57,7 +57,7 @@ class BibController extends AbstractController
             ['route' => 'bib', 'intitule' => 'Home'],
             ['route' => 'livre_index', 'intitule' => 'Books'],
             ['route' => 'categorie_index', 'intitule' => 'Catregories'],
-            ['route' => 'user_index', 'intitule' => 'users'],
+            ['route' => 'user_index', 'intitule' => 'Users'],
             // ['route' => 'app_logout', 'intitule' => 'Logout'],
         );
         return $this->render('bib/menu.html.twig', ['mymenu' => $mymenu,]);

@@ -25,8 +25,7 @@ class LivreType extends AbstractType
             ->add('date_emprunt')
             ->add('date_retour')
             ->add('categorie')
-            // ->add('user', UserType::class)
-            ->add('image', FileType::class, array('label' => 'Photo (png, jpeg)'));
+            ->add('image', FileType::class, array('label' => 'Photo (png, jpeg)', 'data_class' => null));
     }
 
     public function configureOptions(OptionsResolver $resolver): void
