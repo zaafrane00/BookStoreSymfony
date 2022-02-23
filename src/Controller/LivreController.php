@@ -2,17 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\Categorie;
 use App\Entity\Livre;
 use App\Form\LivreType;
 use App\Repository\LivreRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
  * @Route("/livre")
@@ -20,7 +20,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
  */
 class LivreController extends AbstractController
 {
-   
+
     /**
      * @Route("/", name="livre_index", methods={"GET"})
      */
@@ -41,6 +41,24 @@ class LivreController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $livre->getImage();
+            if ($file) {
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+                $livre->setImage($fileName);
+
+                try {
+                    $file->move(
+                        $this->getParameter('photos_directory'),
+                        $fileName
+                    );
+                    if ($fileName != null) {
+                        $livre->setImage($fileName);
+                    }
+                } catch (FileException $e) {
+                    return $e;
+                }
+            }
+
             $entityManager->persist($livre);
             $entityManager->flush();
 
@@ -88,7 +106,7 @@ class LivreController extends AbstractController
      */
     public function delete(Request $request, Livre $livre, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$livre->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $livre->getId(), $request->request->get('_token'))) {
             $entityManager->remove($livre);
             $entityManager->flush();
         }

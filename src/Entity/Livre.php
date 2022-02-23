@@ -6,6 +6,7 @@ use App\Repository\LivreRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=LivreRepository::class)
@@ -29,12 +30,12 @@ class Livre
      */
     private $auteur;
 
-    
+
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $statut;
-    
+
     /**
      * @ORM\Column(type="datetime")
      */
@@ -45,16 +46,27 @@ class Livre
      */
     private $date_retour;
 
-    
+
     /**
      * @ORM\ManyToMany(targetEntity=Categorie::class, inversedBy="livres")
      */
     private $categorie;
 
     /**
-     * @ORM\OneToOne(targetEntity=Image::class, cascade={"persist", "remove"})
+     * @ORM\Column(nullable=true)
+     * @Assert\File(mimeTypes={ "image/png", "image/jpeg" })
      */
     private $image;
+
+
+
+    // /**
+    //  * @ORM\OneToOne(targetEntity=Image::class, cascade={"persist", "remove"})
+    //  * @Assert\File(mimeTypes={ "image/png", "image/jpeg" })
+    //  */
+    // private $image;
+
+
 
     public function __construct()
     {
@@ -90,7 +102,17 @@ class Livre
 
         return $this;
     }
-    
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage($image)
+    {
+        $this->image = $image;
+        return $this;
+    }
     public function getStatut(): ?string
     {
         return $this->statut;
@@ -127,7 +149,7 @@ class Livre
         return $this;
     }
 
-    
+
     /**
      * @return Collection|categorie[]
      */
@@ -151,17 +173,4 @@ class Livre
 
         return $this;
     }
-
-    public function getImage(): ?image
-    {
-        return $this->image;
-    }
-
-    public function setImage(?image $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-    
 }

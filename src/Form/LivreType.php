@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class LivreType extends AbstractType
 {
@@ -25,7 +26,7 @@ class LivreType extends AbstractType
             ->add('date_retour')
             ->add('categorie')
             // ->add('user', UserType::class)
-            ->add('image', ImageType::class);
+            ->add('image', FileType::class, array('label' => 'Photo (png, jpeg)'));
     }
 
     public function configureOptions(OptionsResolver $resolver): void
